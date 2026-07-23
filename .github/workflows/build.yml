@@ -18,13 +18,17 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: gradle
 
-    - name: Grant execute permission for gradle
-      run: chmod +x gradlew || true
+    - name: Generate debug keystore
+      run: keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "C=US, O=Android, CN=Android Debug"
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: '8.7'
 
     - name: Build Android App Bundle (.aab)
-      run: gradle :app:bundleRelease
+      run: gradle :app:bundleDebug
 
     - name: Build APK (.apk)
       run: gradle :app:assembleDebug
@@ -32,8 +36,8 @@ jobs:
     - name: Upload AAB Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: app-release-aab
-        path: app/build/outputs/bundle/release/*.aab
+        name: app-debug-aab
+        path: app/build/outputs/bundle/debug/*.aab
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
