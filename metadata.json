@@ -1,0 +1,6 @@
+{
+  "name": "Expense Tracker",
+  "description": "A beautiful, animated personal finance tracker for managing income and expenses with stunning charts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
